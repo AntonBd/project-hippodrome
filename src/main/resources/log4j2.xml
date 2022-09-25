@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <!-- RollingFile - создание файла по заданному правилу -->
+        <RollingFile name="LogToFile" fileName="logs/hippodrome.log"
+            filePattern="logs/hippodrome.%d{yyyy-MM-dd}.log">
+            <!-- Формат вывода строки: %d = дата, %-5p = уровень логирования, %c = имя класса,
+                                       %m  = передаваемое сообщение, %n = переход на новую строку  -->
+            <PatternLayout pattern = "%d %-5p %C: %m%n" />
+            <TimeBasedTriggeringPolicy />
+            <!-- Правило перезаписи логов -->
+            <DefaultRolloverStrategy>
+                <!-- Удаление файлов, подпадающих под условие ниже -->
+                <Delete basePath="logs" maxDepth="2">
+                    <IfFileName glob="hippodrome.*.log" />
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Уровень логирования -->
+        <Root level ="ALL">
+            <AppenderRef ref="LogToFile" />
+        </Root>
+    </Loggers>
+</Configuration>
